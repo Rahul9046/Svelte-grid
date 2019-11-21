@@ -12,7 +12,7 @@ export default {
 	output: {
 		sourcemap: true,
 		format: 'iife',
-		name: 'app',
+		name: 'RowJumpers',
 		file: 'public/bundle.js'
 	},
 	plugins: [
