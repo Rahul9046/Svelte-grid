@@ -4,14 +4,14 @@ var RowJumpers = (function () {
         this.rowJumpConfig = config;
     }
     RowJumpers.prototype.getApp = function () {
-        return this._app;
+        return App;
     };
-    RowJumpers.prototype.render = function () {
-        var rowJumpComp = this, app = new App(rowJumpComp.rowJumpConfig);
-        rowJumpComp._app = app;
-        return app;
+    RowJumpers.prototype.getProps = function () {
+        return this.rowJumpConfig;
     };
-    ;
+    RowJumpers.prototype.getType = function () {
+        return 'row-jumpers';
+    };
     return RowJumpers;
 }());
 export default RowJumpers;

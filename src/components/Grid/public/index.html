@@ -5,13 +5,26 @@
 	<meta name='viewport' content='width=device-width'>
 
 	<title>Grid Component</title>
-
+	<script src='./search.js'></script>
+	<script src='./row-jumpers.js'></script>
+	<script src='./bundle.js'></script>
 	<link rel='stylesheet' href='./bundle.css'>
-
-	<script defer src='./bundle.js'></script>
+	<link rel='stylesheet' href='./externalStyle.css'>
 </head>
 
 <body>
 	<div class="grid-container"></div>
+	<script>
+		var grid = new Grid();
+		grid.addFeature(new Search());
+		grid.addFeature(new RowJumpers());
+		grid.render();
+		grid.addEventListener('searchApplied', function(e, data){
+			console.log(data.value);
+		});
+		grid.addEventListener('rowSelectionChanged', function(e, data){
+			console.log(data.value);
+		});
+	</script>
 </body>
 </html>

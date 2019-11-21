@@ -11,14 +11,14 @@ class Search {
 		this.searchConfig = config;
 	}
 	getApp():object {
-		return this._app;
+		return App;
 	}
-	render():object{
-		let searchComp = this,
-		app: object = new App(searchComp.searchConfig);
-		searchComp._app = app;
-		return app;
-	};
+	getProps():object {
+		return this.searchConfig;
+	}
+	getType():string{
+		return 'search';
+	}
 }
 
 export default Search;

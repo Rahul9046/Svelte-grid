@@ -11,14 +11,14 @@ class RowJumpers {
 		this.rowJumpConfig = config;
 	}
 	getApp():object {
-		return this._app;
+		return App;
 	}
-	render():object{
-		let rowJumpComp = this,
-		app: object = new App(rowJumpComp.rowJumpConfig);
-		rowJumpComp._app = app;
-		return app;
-	};
+	getProps():object {
+		return this.rowJumpConfig;
+	}
+	getType():string{
+		return 'row-jumpers';
+	}
 }
 
 export default RowJumpers;
