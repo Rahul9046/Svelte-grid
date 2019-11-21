@@ -8,13 +8,16 @@ import rollup_start_dev from './rollup_start_dev';
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-	input: 'src/main.js',
-	output: {
+	input: 'src/global-sort-wrapper.js',
+	output: [{
 		sourcemap: true,
-		format: 'iife',
+		format: 'es',
 		name: 'app',
-		file: 'public/bundle.js'
+		dir: 'public/'
 	},
+	{  sourcemap: true, 'format': 'umd', file: 'public/umd-global-sort.js', name: 'GlobalSortWrapper'},
+	{  sourcemap: true, 'format': 'iife', file: 'public/iife-global-sort.js', name: 'GlobalSortWrapper'}
+	],
 	plugins: [
 		svelte({
 			// enable run-time checks when not in production
