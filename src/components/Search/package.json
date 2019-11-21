@@ -11,9 +11,11 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
-    "sirv-cli": "^0.4.4"
+    "sirv-cli": "^0.4.4",
+    "typescript": "^3.7"
   },
   "scripts": {
+    "convert": "npx tsc",
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public --single",

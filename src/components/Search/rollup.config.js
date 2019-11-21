@@ -12,8 +12,8 @@ export default {
 	output: {
 		sourcemap: true,
 		format: 'iife',
-		name: 'app',
-		file: 'public/bundle.js'
+		name: 'Search',
+		file: 'public/main.js'
 	},
 	plugins: [
 		svelte({
