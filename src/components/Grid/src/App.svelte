@@ -27,8 +27,10 @@
 	}
 	function handleSortOptionChanged(event) {
 		let selctedOption = event.detail.selectedOption,
-			sortedDataTable = applySorting(dataTable, selctedOption);
+			sortedDataTable = applySorting(dataTable, selctedOption),
+			oldData = sortedDataTable.getData().data;
 		data = sortedDataTable.getData().data;
+	events.sortChanged(event, {oldData, newData: data});
 	}
 	function handleRowClicked (e){
 		let eventData = e.detail;
