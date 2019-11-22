@@ -46,6 +46,10 @@ var GlobalSort = (function () {
     function text(data) {
         return document.createTextNode(data);
     }
+    function listen(node, event, handler, options) {
+        node.addEventListener(event, handler, options);
+        return () => node.removeEventListener(event, handler, options);
+    }
     function attr(node, attribute, value) {
         if (value == null)
             node.removeAttribute(attribute);
@@ -64,6 +68,20 @@ var GlobalSort = (function () {
     let current_component;
     function set_current_component(component) {
         current_component = component;
+    }
+    function createEventDispatcher() {
+        const component = current_component;
+        return (type, detail) => {
+            const callbacks = component.$$.callbacks[type];
+            if (callbacks) {
+                // TODO are there situations where events could be dispatched
+                // in a server (non-DOM) environment?
+                const event = custom_event(type, detail);
+                callbacks.slice().forEach(fn => {
+                    fn.call(component, event);
+                });
+            }
+        };
     }
 
     const dirty_components = [];
@@ -251,6 +269,19 @@ var GlobalSort = (function () {
         dispatch_dev("SvelteDOMRemove", { node });
         detach(node);
     }
+    function listen_dev(node, event, handler, options, has_prevent_default, has_stop_propagation) {
+        const modifiers = options === true ? ["capture"] : options ? Array.from(Object.keys(options)) : [];
+        if (has_prevent_default)
+            modifiers.push('preventDefault');
+        if (has_stop_propagation)
+            modifiers.push('stopPropagation');
+        dispatch_dev("SvelteDOMAddEventListener", { node, event, handler, modifiers });
+        const dispose = listen(node, event, handler, options);
+        return () => {
+            dispatch_dev("SvelteDOMRemoveEventListener", { node, event, handler, modifiers });
+            dispose();
+        };
+    }
     function attr_dev(node, attribute, value) {
         attr(node, attribute, value);
         if (value == null)
@@ -294,7 +325,7 @@ var GlobalSort = (function () {
     	return child_ctx;
     }
 
-    // (5:2) {#each options as option}
+    // (12:2) {#each options as option}
     function create_each_block(ctx) {
     	var option, t_value = ctx.option + "", t, option_id_value, option_value_value;
 
@@ -305,7 +336,7 @@ var GlobalSort = (function () {
     			attr_dev(option, "id", option_id_value = ctx.option);
     			option.__value = option_value_value = ctx.option;
     			option.value = option.__value;
-    			add_location(option, file, 5, 4, 80);
+    			add_location(option, file, 12, 4, 301);
     		},
 
     		m: function mount(target, anchor) {
@@ -335,12 +366,12 @@ var GlobalSort = (function () {
     			}
     		}
     	};
-    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block.name, type: "each", source: "(5:2) {#each options as option}", ctx });
+    	dispatch_dev("SvelteRegisterBlock", { block, id: create_each_block.name, type: "each", source: "(12:2) {#each options as option}", ctx });
     	return block;
     }
 
     function create_fragment(ctx) {
-    	var select;
+    	var select, dispose;
 
     	let each_value = ctx.options;
 
@@ -357,7 +388,8 @@ var GlobalSort = (function () {
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
-    			add_location(select, file, 3, 0, 39);
+    			add_location(select, file, 10, 0, 235);
+    			dispose = listen_dev(select, "change", ctx.handleChange);
     		},
 
     		l: function claim(nodes) {
@@ -405,6 +437,8 @@ var GlobalSort = (function () {
     			}
 
     			destroy_each(each_blocks, detaching);
+
+    			dispose();
     		}
     	};
     	dispatch_dev("SvelteRegisterBlock", { block, id: create_fragment.name, type: "component", source: "", ctx });
@@ -413,6 +447,12 @@ var GlobalSort = (function () {
 
     function instance($$self, $$props, $$invalidate) {
     	let { options } = $$props;
+    const  dispatch = createEventDispatcher();
+    function handleChange (e) {
+      dispatch("sortOptionChanged", {
+        selectedOption: e.target.value
+      });
+    }
 
     	const writable_props = ['options'];
     	Object.keys($$props).forEach(key => {
@@ -431,7 +471,7 @@ var GlobalSort = (function () {
     		if ('options' in $$props) $$invalidate('options', options = $$props.options);
     	};
 
-    	return { options };
+    	return { options, handleChange };
     }
 
     class Global_sort extends SvelteComponentDev {

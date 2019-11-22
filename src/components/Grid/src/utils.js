@@ -1,6 +1,5 @@
 import DataStore from 'fusioncharts/datastore';
-import {filter} from 'fusioncharts/datastore/operators';
-
+import { filter, sort } from 'fusioncharts/datastore/operators';
 let data = [
 [1973, "January",0.00005,0.000769],
 [1973, "February",0.00005,0.000719],
@@ -123,8 +122,16 @@ schema = [{
   let headerArray = schema.map((columndef)=> {return columndef.name});
   return headerArray;
 }
+function applySorting (dataTable, selctedOption) {
+  let sortQuery = sort([
+    {column: selctedOption, order: 'desc'}	
+  ]),
+  tmpDatatable = dataTable.query(sortQuery);
+  return tmpDatatable;
+}
 export {
   filter,
   getDataTable,
-  getHeadernames
+  getHeadernames,
+  applySorting
 }

@@ -3,8 +3,7 @@
 	export let events;
 	export let dataTable;
 
-	import { getHeadernames } from './utils';
-	import {filter} from './utils.js';
+	import { getHeadernames, applySorting, filter } from './utils';
 
 	$: data = dataTable.getData().data;
 	$: columnHeader = getHeadernames(dataTable.getSchema());
@@ -26,6 +25,11 @@
 		data = (type === 'start') ? data.filter((item, index)=> index >= value): data.filter((item, index)=> index <= value) 
 		events.rowSelectionChanged(e, eventData);
 	}
+	function handleSortOptionChanged(event) {
+		let selctedOption = event.detail.selectedOption,
+			sortedDataTable = applySorting(dataTable, selctedOption);
+		data = sortedDataTable.getData().data;
+	}
 </script>
 
 
@@ -34,7 +38,7 @@
 	<svelte:component this={features.search && features.search.getApp()} on:searchApplied = {handleUpdate}/>
 </div>
 <div class="sort-container">
-		<svelte:component this={features.GlobalSort && features.GlobalSort.getApp()} options= {columnHeader}/>
+		<svelte:component this={features.GlobalSort && features.GlobalSort.getApp()} options= {columnHeader} on:sortOptionChanged = {handleSortOptionChanged} />
 </div>
 <div class="table-container">
 		<svelte:component this={features.table && features.table.getApp()} data= {data} header={columnHeader}/>
