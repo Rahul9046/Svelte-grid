@@ -32,6 +32,9 @@
 		grid.addEventListener('rowSelectionChanged', function(e, data){
 			console.log(data.value);
 		});
+		grid.addEventListener('sortChanged', function(e, data){
+			console.log(data);
+		});
 	</script>
 </body>
 </html>
