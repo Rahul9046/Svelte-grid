@@ -49,8 +49,17 @@ var table = (function () {
     function space() {
         return text(' ');
     }
+    function attr(node, attribute, value) {
+        if (value == null)
+            node.removeAttribute(attribute);
+        else if (node.getAttribute(attribute) !== value)
+            node.setAttribute(attribute, value);
+    }
     function children(element) {
         return Array.from(element.childNodes);
+    }
+    function set_style(node, key, value, important) {
+        node.style.setProperty(key, value, important ? 'important' : '');
     }
     function custom_event(type, detail) {
         const e = document.createEvent('CustomEvent');
@@ -250,6 +259,13 @@ var table = (function () {
         dispatch_dev("SvelteDOMRemove", { node });
         detach(node);
     }
+    function attr_dev(node, attribute, value) {
+        attr(node, attribute, value);
+        if (value == null)
+            dispatch_dev("SvelteDOMRemoveAttribute", { node, attribute });
+        else
+            dispatch_dev("SvelteDOMSetAttribute", { node, attribute, value });
+    }
     function set_data_dev(text, data) {
         data = '' + data;
         if (text.data === data)
@@ -294,7 +310,7 @@ var table = (function () {
     	return child_ctx;
     }
 
-    // (8:6) {#each header as item}
+    // (27:6) {#each header as item}
     function create_each_block_2(ctx) {
     	let th;
     	let t_value = ctx.item + "";
@@ -304,7 +320,8 @@ var table = (function () {
     		c: function create() {
     			th = element("th");
     			t = text(t_value);
-    			add_location(th, file, 8, 8, 122);
+    			attr_dev(th, "class", "svelte-5dc54d");
+    			add_location(th, file, 27, 8, 455);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, th, anchor);
@@ -322,14 +339,14 @@ var table = (function () {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(8:6) {#each header as item}",
+    		source: "(27:6) {#each header as item}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (16:8) {#each row as item}
+    // (35:8) {#each row as item}
     function create_each_block_1(ctx) {
     	let td;
     	let t_value = ctx.item + "";
@@ -339,7 +356,8 @@ var table = (function () {
     		c: function create() {
     			td = element("td");
     			t = text(t_value);
-    			add_location(td, file, 16, 10, 258);
+    			attr_dev(td, "class", "svelte-5dc54d");
+    			add_location(td, file, 35, 10, 591);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -357,14 +375,14 @@ var table = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(16:8) {#each row as item}",
+    		source: "(35:8) {#each row as item}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (14:4) {#each data as row}
+    // (33:4) {#each data as row}
     function create_each_block(ctx) {
     	let tr;
     	let t;
@@ -384,7 +402,8 @@ var table = (function () {
     			}
 
     			t = space();
-    			add_location(tr, file, 14, 6, 215);
+    			attr_dev(tr, "class", "svelte-5dc54d");
+    			add_location(tr, file, 33, 6, 548);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -429,7 +448,7 @@ var table = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(14:4) {#each data as row}",
+    		source: "(33:4) {#each data as row}",
     		ctx
     	});
 
@@ -437,6 +456,7 @@ var table = (function () {
     }
 
     function create_fragment(ctx) {
+    	let div;
     	let table;
     	let thead;
     	let tr;
@@ -458,6 +478,7 @@ var table = (function () {
 
     	const block = {
     		c: function create() {
+    			div = element("div");
     			table = element("table");
     			thead = element("thead");
     			tr = element("tr");
@@ -473,16 +494,24 @@ var table = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(tr, file, 6, 3, 80);
-    			add_location(thead, file, 5, 2, 69);
-    			add_location(tbody, file, 12, 2, 177);
-    			add_location(table, file, 4, 0, 59);
+    			attr_dev(tr, "class", "svelte-5dc54d");
+    			add_location(tr, file, 25, 3, 413);
+    			add_location(thead, file, 24, 2, 402);
+    			add_location(tbody, file, 31, 2, 510);
+    			attr_dev(table, "class", "svelte-5dc54d");
+    			add_location(table, file, 23, 2, 392);
+    			attr_dev(div, "class", "table-container");
+    			set_style(div, "height", "350px");
+    			set_style(div, "width", "450px");
+    			set_style(div, "overflow-y", "scroll");
+    			add_location(div, file, 22, 0, 306);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, table, anchor);
+    			insert_dev(target, div, anchor);
+    			append_dev(div, table);
     			append_dev(table, thead);
     			append_dev(thead, tr);
 
@@ -547,7 +576,7 @@ var table = (function () {
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(table);
+    			if (detaching) detach_dev(div);
     			destroy_each(each_blocks_1, detaching);
     			destroy_each(each_blocks, detaching);
     		}
@@ -645,7 +674,6 @@ var table = (function () {
             return 'table';
         }
     }
-    //# sourceMappingURL=table-wrapper.js.map
 
     return Table$1;
 

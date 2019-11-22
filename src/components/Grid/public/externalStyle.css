@@ -1,5 +1,41 @@
+
+.search-container{
+    display: inline-block;
+    position: relative;
+    margin: 0px;
+}
+.sort-container{
+    display: inline-block;
+    position: relative;
+    margin: 5px;
+}
+.search-container > input{
+    width: 150px;
+    height: 20px;
+}
+.sort-container > select{
+    position: relative;
+    width: 150px;
+    height: 25px;
+}
+
 .jump-buttons{
     width: 30px;
     height: 20px;
-    margin: 5px;
+    margin-top: 15px;
 }
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+  } 
+
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+
