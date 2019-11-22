@@ -4,14 +4,14 @@ var Search = (function () {
         this.searchConfig = config;
     }
     Search.prototype.getApp = function () {
-        return this._app;
+        return App;
     };
-    Search.prototype.render = function () {
-        var searchComp = this, app = new App(searchComp.searchConfig);
-        searchComp._app = app;
-        return app;
+    Search.prototype.getProps = function () {
+        return this.searchConfig;
     };
-    ;
+    Search.prototype.getType = function () {
+        return 'search';
+    };
     return Search;
 }());
 export default Search;

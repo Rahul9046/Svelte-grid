@@ -1,4 +1,5 @@
 import svelte from 'rollup-plugin-svelte';
+import typescript from 'rollup-plugin-typescript';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
@@ -9,13 +10,15 @@ const production = !process.env.ROLLUP_WATCH;
 
 export default {
 	input: 'src/main.js',
-	output: {
+	output: [{
 		sourcemap: true,
 		format: 'iife',
-		name: 'app',
+		name: 'Grid',
 		file: 'public/bundle.js'
-	},
+	}
+	],
 	plugins: [
+		typescript(),
 		svelte({
 			// enable run-time checks when not in production
 			dev: !production,

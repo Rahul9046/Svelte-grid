@@ -13,5 +13,15 @@
 		<div id="global-sort-container-id"></div>
 <body>
 		<script src='./iife-global-sort.js'></script>
+		<script>
+		sorrtWrapper =  new GlobalSort();
+		app = sorrtWrapper.getApp();
+		obj = new app({
+			target: document.body,
+			props: {
+				options:["Hello","Hi"]
+			}
+		});
+		</script>
 </body>
 </html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="./bundle.css">
+</head>
+<body>
+  <div id='table-container'></div>
+  <script src="iife-table.js"></script>
+  <script>
+    let tableObj =  new table(),
+      app = tableObj.getApp(),
+      tele = new app({
+          target:document.getElementById('table-container'),
+          props:{
+          data: [['2','2'],['3', '3'], ['4','4']],
+          header: ["no1","no2"]
+          }
+
+      });
+  
+  </script>
+</body>
+</html>

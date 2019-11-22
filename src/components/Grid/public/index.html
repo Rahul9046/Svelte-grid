@@ -4,13 +4,40 @@
 	<meta charset='utf-8'>
 	<meta name='viewport' content='width=device-width'>
 
-	<title>Dynamic Component</title>
-
+	<title>Grid Component</title>
+	<script src='./search.js'></script>
+	<script src='./row-jumpers.js'></script>
+	<script src='./iife-global-sort.js'></script>
+	<script src='./iife-table.js'></script>
+	<!-- <script src='./bundle.js'></script> -->
 	<link rel='stylesheet' href='./bundle.css'>
+	<link rel='stylesheet' href='./externalStyle.css'>
 
-	<script defer src='./bundle.js'></script>
+	<script src='./bundle.js'></script>
+	<!-- <script defer src='./iife-grid.js'></script> -->
 </head>
 
 <body>
+	<div class="grid-container"></div>
+	<script>
+		var grid = new Grid();
+		grid.addFeature(new Search());
+		grid.addFeature(new RowJumpers());
+		grid.addFeature(new GlobalSort());
+		grid.addFeature(new table());
+		grid.render();
+		grid.addEventListener('searchApplied', function(e, data){
+			console.log(data.value);
+		});
+		grid.addEventListener('rowSelectionChanged', function(e, data){
+			console.log(data.value);
+		});
+		grid.addEventListener('rowClicked', function(e, evtData){
+			console.log(evtData.data);
+		});
+		grid.addEventListener('sortChanged', function(e, data){
+			console.log(data);
+		});
+	</script>
 </body>
 </html>

@@ -11,12 +11,10 @@ export default {
 	input: 'src/global-sort-wrapper.js',
 	output: [{
 		sourcemap: true,
-		format: 'es',
-		name: 'app',
-		dir: 'public/'
-	},
-	{  sourcemap: true, 'format': 'umd', file: 'public/umd-global-sort.js', name: 'GlobalSortWrapper'},
-	{  sourcemap: true, 'format': 'iife', file: 'public/iife-global-sort.js', name: 'GlobalSortWrapper'}
+		format: 'iife',
+		name: 'GlobalSort',
+		file: 'public/iife-global-sort.js'
+	}
 	],
 	plugins: [
 		svelte({
