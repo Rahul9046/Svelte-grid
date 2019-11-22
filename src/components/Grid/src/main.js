@@ -1,12 +1,13 @@
 import App from './App.svelte';
-import { getDataTable } from './utils';
+import { getDataTable, getHeadernames } from './utils';
 class Grid{
 	constructor(config){
 		this._features = {};
 		this._app = {};
 		this._evt = {};
 		this.featureConfigs = {};
-		this.dataTable = getDataTable();
+		this.data = getDataTable().getData();
+		this.columnHeader = getHeadernames(this.dataTable.getSchema());
 		this.configure(config);
 	}
 	configure(config){
@@ -45,7 +46,8 @@ class Grid{
 						props: {
 							features: grid.getFeatures(),
 							events: grid.getPublicEvents(),
-							datatable: grid.dataTable
+							data: grid.data,
+							columnHeader: this.columnHeader
 						}
 		});
 	}

@@ -22,7 +22,7 @@
 		var grid = new Grid();
 		grid.addFeature(new Search());
 		grid.addFeature(new RowJumpers());
-		grid.addFeature(new GlobalSortWrapper());
+		grid.addFeature(new GlobalSort());
 		grid.render();
 		grid.addEventListener('searchApplied', function(e, data){
 			console.log(data.value);

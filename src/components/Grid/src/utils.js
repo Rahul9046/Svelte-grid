@@ -118,3 +118,7 @@ export function getDataTable () {
     dt = ds.createDataTable(data, schema);
   return dt;
 }
+export function getHeadernames (schema) {
+  let headerArray = schema.map((columndef)=> {return columndef.name});
+  return headerArray;
+}

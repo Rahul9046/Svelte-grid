@@ -1,12 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const global_sort_svelte_1 = require("./global-sort.svelte");
+import GlobalSortComponent from './global-sort.svelte';
 class GlobalSort {
     constructor(config) {
         this.GlobalSortConfig = config;
     }
     getApp() {
-        return global_sort_svelte_1.default;
+        return GlobalSortComponent;
     }
     getProps() {
         return this.GlobalSortConfig;
@@ -15,5 +13,5 @@ class GlobalSort {
         return 'GlobalSort';
     }
 }
-exports.default = GlobalSort;
+export default GlobalSort;
 //# sourceMappingURL=global-sort-wrapper.js.map
