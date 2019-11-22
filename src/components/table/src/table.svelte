@@ -1,7 +1,15 @@
 <script>
   export let data;
+  export let header;
 </script>
 <table>
+  <thead>
+   <tr>
+      {#each header as item}
+        <th>{item}</th>
+      {/each}
+      </tr>
+  </thead>
   <tbody>
     {#each data as row}
       <tr>

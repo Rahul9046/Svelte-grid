@@ -288,7 +288,48 @@ var table = (function () {
     	return child_ctx;
     }
 
-    // (8:8) {#each row as item}
+    function get_each_context_2(ctx, list, i) {
+    	const child_ctx = Object.create(ctx);
+    	child_ctx.item = list[i];
+    	return child_ctx;
+    }
+
+    // (8:6) {#each header as item}
+    function create_each_block_2(ctx) {
+    	let th;
+    	let t_value = ctx.item + "";
+    	let t;
+
+    	const block = {
+    		c: function create() {
+    			th = element("th");
+    			t = text(t_value);
+    			add_location(th, file, 8, 8, 122);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, th, anchor);
+    			append_dev(th, t);
+    		},
+    		p: function update(changed, ctx) {
+    			if (changed.header && t_value !== (t_value = ctx.item + "")) set_data_dev(t, t_value);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(th);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_2.name,
+    		type: "each",
+    		source: "(8:6) {#each header as item}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (16:8) {#each row as item}
     function create_each_block_1(ctx) {
     	let td;
     	let t_value = ctx.item + "";
@@ -298,7 +339,7 @@ var table = (function () {
     		c: function create() {
     			td = element("td");
     			t = text(t_value);
-    			add_location(td, file, 8, 10, 129);
+    			add_location(td, file, 16, 10, 258);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, td, anchor);
@@ -316,14 +357,14 @@ var table = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(8:8) {#each row as item}",
+    		source: "(16:8) {#each row as item}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (6:4) {#each data as row}
+    // (14:4) {#each data as row}
     function create_each_block(ctx) {
     	let tr;
     	let t;
@@ -343,7 +384,7 @@ var table = (function () {
     			}
 
     			t = space();
-    			add_location(tr, file, 6, 6, 86);
+    			add_location(tr, file, 14, 6, 215);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, tr, anchor);
@@ -388,7 +429,7 @@ var table = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(6:4) {#each data as row}",
+    		source: "(14:4) {#each data as row}",
     		ctx
     	});
 
@@ -397,7 +438,17 @@ var table = (function () {
 
     function create_fragment(ctx) {
     	let table;
+    	let thead;
+    	let tr;
+    	let t;
     	let tbody;
+    	let each_value_2 = ctx.header;
+    	let each_blocks_1 = [];
+
+    	for (let i = 0; i < each_value_2.length; i += 1) {
+    		each_blocks_1[i] = create_each_block_2(get_each_context_2(ctx, each_value_2, i));
+    	}
+
     	let each_value = ctx.data;
     	let each_blocks = [];
 
@@ -408,20 +459,38 @@ var table = (function () {
     	const block = {
     		c: function create() {
     			table = element("table");
+    			thead = element("thead");
+    			tr = element("tr");
+
+    			for (let i = 0; i < each_blocks_1.length; i += 1) {
+    				each_blocks_1[i].c();
+    			}
+
+    			t = space();
     			tbody = element("tbody");
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
-    			add_location(tbody, file, 4, 2, 48);
-    			add_location(table, file, 3, 0, 38);
+    			add_location(tr, file, 6, 3, 80);
+    			add_location(thead, file, 5, 2, 69);
+    			add_location(tbody, file, 12, 2, 177);
+    			add_location(table, file, 4, 0, 59);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, table, anchor);
+    			append_dev(table, thead);
+    			append_dev(thead, tr);
+
+    			for (let i = 0; i < each_blocks_1.length; i += 1) {
+    				each_blocks_1[i].m(tr, null);
+    			}
+
+    			append_dev(table, t);
     			append_dev(table, tbody);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
@@ -429,6 +498,29 @@ var table = (function () {
     			}
     		},
     		p: function update(changed, ctx) {
+    			if (changed.header) {
+    				each_value_2 = ctx.header;
+    				let i;
+
+    				for (i = 0; i < each_value_2.length; i += 1) {
+    					const child_ctx = get_each_context_2(ctx, each_value_2, i);
+
+    					if (each_blocks_1[i]) {
+    						each_blocks_1[i].p(changed, child_ctx);
+    					} else {
+    						each_blocks_1[i] = create_each_block_2(child_ctx);
+    						each_blocks_1[i].c();
+    						each_blocks_1[i].m(tr, null);
+    					}
+    				}
+
+    				for (; i < each_blocks_1.length; i += 1) {
+    					each_blocks_1[i].d(1);
+    				}
+
+    				each_blocks_1.length = each_value_2.length;
+    			}
+
     			if (changed.data) {
     				each_value = ctx.data;
     				let i;
@@ -456,6 +548,7 @@ var table = (function () {
     		o: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(table);
+    			destroy_each(each_blocks_1, detaching);
     			destroy_each(each_blocks, detaching);
     		}
     	};
@@ -473,7 +566,8 @@ var table = (function () {
 
     function instance($$self, $$props, $$invalidate) {
     	let { data } = $$props;
-    	const writable_props = ["data"];
+    	let { header } = $$props;
+    	const writable_props = ["data", "header"];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Table> was created with unknown prop '${key}'`);
@@ -481,23 +575,25 @@ var table = (function () {
 
     	$$self.$set = $$props => {
     		if ("data" in $$props) $$invalidate("data", data = $$props.data);
+    		if ("header" in $$props) $$invalidate("header", header = $$props.header);
     	};
 
     	$$self.$capture_state = () => {
-    		return { data };
+    		return { data, header };
     	};
 
     	$$self.$inject_state = $$props => {
     		if ("data" in $$props) $$invalidate("data", data = $$props.data);
+    		if ("header" in $$props) $$invalidate("header", header = $$props.header);
     	};
 
-    	return { data };
+    	return { data, header };
     }
 
     class Table extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance, create_fragment, safe_not_equal, { data: 0 });
+    		init(this, options, instance, create_fragment, safe_not_equal, { data: 0, header: 0 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -512,6 +608,10 @@ var table = (function () {
     		if (ctx.data === undefined && !("data" in props)) {
     			console.warn("<Table> was created without expected prop 'data'");
     		}
+
+    		if (ctx.header === undefined && !("header" in props)) {
+    			console.warn("<Table> was created without expected prop 'header'");
+    		}
     	}
 
     	get data() {
@@ -519,6 +619,14 @@ var table = (function () {
     	}
 
     	set data(value) {
+    		throw new Error("<Table>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get header() {
+    		throw new Error("<Table>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set header(value) {
     		throw new Error("<Table>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
@@ -537,6 +645,7 @@ var table = (function () {
             return 'table';
         }
     }
+    //# sourceMappingURL=table-wrapper.js.map
 
     return Table$1;
 

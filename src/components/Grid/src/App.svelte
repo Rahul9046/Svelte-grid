@@ -24,8 +24,7 @@
 		<svelte:component this={features.GlobalSort && features.GlobalSort.getApp()} options= {columnHeader}/>
 </div>
 <div class="table-container">
-		{@debug features}
-		<svelte:component this={features.table && features.table.getApp()} data= {data}/>
+		<svelte:component this={features.table && features.table.getApp()} data= {data} header={columnHeader}/>
 </div>
 <!-- Row jumpers -->
 <div class="row-jumpers">

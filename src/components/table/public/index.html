@@ -7,6 +7,20 @@
   <title>Document</title>
 </head>
 <body>
+  <div id='table-container'></div>
   <script src="iife-table.js"></script>
+  <script>
+    let tableObj =  new table(),
+      app = tableObj.getApp(),
+      tele = new app({
+          target:document.getElementById('table-container'),
+          props:{
+          data: [['2','2'],['3', '3'], ['4','4']],
+          header: ["no1","no2"]
+          }
+
+      });
+  
+  </script>
 </body>
 </html>
