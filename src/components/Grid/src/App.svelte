@@ -21,7 +21,6 @@
 	<svelte:component this={features.search && features.search.getApp()} on:searchApplied = {handleUpdate}/>
 </div>
 <div class="sort-container">
-	{@debug features}
 		<svelte:component this={features.GlobalSort && features.GlobalSort.getApp()} options= {columnHeader}/>
 </div>
 <!-- Row jumpers -->
