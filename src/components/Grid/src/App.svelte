@@ -8,6 +8,7 @@
 
 	$: data = dataTable.getData().data;
 	$: columnHeader = getHeadernames(dataTable.getSchema());
+
     // handles public event: searchApplied
 	function handleUpdate(e){
 		let eventData = e.detail,
@@ -19,7 +20,10 @@
 	}
 	// handles public event: rowSelectionChanged
 	function handleRowUpdate(e){
-		let eventData = e.detail;
+		let eventData = e.detail,
+		value = eventData.value,
+		type = eventData.type;
+		data = (type === 'start') ? data.filter((item, index)=> index >= value): data.filter((item, index)=> index <= value) 
 		events.rowSelectionChanged(e, eventData);
 	}
 </script>
