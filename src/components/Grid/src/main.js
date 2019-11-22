@@ -6,7 +6,8 @@ class Grid{
 		this._app = {};
 		this._evt = {};
 		this.featureConfigs = {};
-		this.data = getDataTable().getData();
+		this.dataTable = getDataTable();
+		this.data = getDataTable().getData().data;
 		this.columnHeader = getHeadernames(this.dataTable.getSchema());
 		this.configure(config);
 	}

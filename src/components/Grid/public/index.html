@@ -8,6 +8,7 @@
 	<script src='./search.js'></script>
 	<script src='./row-jumpers.js'></script>
 	<script src='./iife-global-sort.js'></script>
+	<script src='./iife-table.js'></script>
 	<!-- <script src='./bundle.js'></script> -->
 	<link rel='stylesheet' href='./bundle.css'>
 	<link rel='stylesheet' href='./externalStyle.css'>
@@ -23,6 +24,7 @@
 		grid.addFeature(new Search());
 		grid.addFeature(new RowJumpers());
 		grid.addFeature(new GlobalSort());
+		grid.addFeature(new table());
 		grid.render();
 		grid.addEventListener('searchApplied', function(e, data){
 			console.log(data.value);

@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "es2015",
+    "outDir": "src",
+    "sourceMap": true
+  },
+  "files": [
+    "src/table-wrapper.ts"
+  ]
+}
