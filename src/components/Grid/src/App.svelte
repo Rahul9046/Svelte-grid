@@ -12,10 +12,9 @@
 	function handleUpdate(e){
 		let eventData = e.detail,
 		filterQuery = filter((row, columns) => { 
-			row[columns.Month].indexOf(eventData.value) > -1
+			return row[columns.Month].indexOf(eventData.value) > -1
 		});
 		data = dataTable.query(filterQuery).getData().data;
-			debugger;
 		events.searchApplied(e, eventData);
 	}
 	// handles public event: rowSelectionChanged
@@ -40,7 +39,7 @@
 <div class="row-jumpers">
 	<svelte:component this={features['row-jumpers'] && features['row-jumpers'].getApp()} 
 	on:rowSelectionChanged = {handleRowUpdate} 
-	startRow=20
-	endRow=50
+	startRow= 0
+	endRow={data.length}
 />
 </div>
