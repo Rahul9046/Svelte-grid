@@ -5,8 +5,15 @@
 
 	import { getHeadernames, applySorting, filter } from './utils';
 
-	$: data = dataTable.getData().data;
+	let currentData = dataTable.getData().data;
+	// startRowNumber = 0,
+	// endRowNumber;
+
+	$: data = currentData;
 	$: columnHeader = getHeadernames(dataTable.getSchema());
+	$: startRowNumber = 0;
+	$: endRowNumber = currentData.length;
+
 
     // handles public event: searchApplied
 	function handleUpdate(e){
@@ -14,15 +21,28 @@
 		filterQuery = filter((row, columns) => { 
 			return row[columns.Month].indexOf(eventData.value) > -1
 		});
-		data = dataTable.query(filterQuery).getData().data;
+		data = currentData = dataTable.query(filterQuery).getData().data;
+		startRowNumber = 0;
+		endRowNumber = dataTable.length;
 		events.searchApplied(e, eventData);
 	}
 	// handles public event: rowSelectionChanged
 	function handleRowUpdate(e){
 		let eventData = e.detail,
-		value = eventData.value,
-		type = eventData.type;
-		data = (type === 'start') ? data.filter((item, index)=> index >= value): data.filter((item, index)=> index <= value) 
+			value = eventData.value,
+			type = eventData.type;
+		if (type === 'start'){
+			startRowNumber = value;
+		} else{
+			endRowNumber = value;
+		}
+		data = currentData.filter((item,index)=>{
+			return (index >= (startRowNumber - 1) && index <= (endRowNumber - 1)) 
+		})
+		// let eventData = e.detail,
+		// value = eventData.value,
+		// type = eventData.type;
+		// data = (type === 'start') ? data.filter((item, index)=> index >= value): data.filter((item, index)=> index <= value) 
 		events.rowSelectionChanged(e, eventData);
 	}
 	function handleSortOptionChanged(event) {
@@ -49,11 +69,12 @@
 <div class="table-container">
 		<svelte:component this={features.table && features.table.getApp()} data= {data} header={columnHeader} on:rowClicked = {handleRowClicked}/>
 </div>
+{@debug startRowNumber}
 <!-- Row jumpers -->
 <div class="row-jumpers">
 	<svelte:component this={features['row-jumpers'] && features['row-jumpers'].getApp()} 
 	on:rowSelectionChanged = {handleRowUpdate} 
-	startRow= 0
-	endRow={data.length}
+	startRow= {startRowNumber}
+	endRow={endRowNumber}
 />
 </div>
