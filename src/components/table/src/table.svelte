@@ -1,6 +1,18 @@
 <script>
   export let data;
   export let header;
+
+  import { createEventDispatcher } from 'svelte';
+
+  const dispatch = createEventDispatcher();
+  function handleClick(index){
+    return function(e){
+        dispatch('rowClicked', { // fire component event
+          node: e.target,
+          data: data[index]
+			}); 
+    } 
+  }
 </script>
 
 <style>
@@ -30,8 +42,8 @@
       </tr>
   </thead>
   <tbody>
-    {#each data as row}
-      <tr>
+    {#each data as row, index}
+      <tr on:click={handleClick(index)}>
         {#each row as item}
           <td>{item}</td>
         {/each}

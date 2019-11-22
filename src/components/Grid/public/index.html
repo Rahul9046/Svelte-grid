@@ -32,6 +32,9 @@
 		grid.addEventListener('rowSelectionChanged', function(e, data){
 			console.log(data.value);
 		});
+		grid.addEventListener('rowClicked', function(e, evtData){
+			console.log(evtData.data);
+		});
 	</script>
 </body>
 </html>

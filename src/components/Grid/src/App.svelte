@@ -30,6 +30,10 @@
 			sortedDataTable = applySorting(dataTable, selctedOption);
 		data = sortedDataTable.getData().data;
 	}
+	function handleRowClicked (e){
+		let eventData = e.detail;
+		events.rowClicked(e, eventData);
+	}
 </script>
 
 
@@ -41,7 +45,7 @@
 		<svelte:component this={features.GlobalSort && features.GlobalSort.getApp()} options= {columnHeader} on:sortOptionChanged = {handleSortOptionChanged} />
 </div>
 <div class="table-container">
-		<svelte:component this={features.table && features.table.getApp()} data= {data} header={columnHeader}/>
+		<svelte:component this={features.table && features.table.getApp()} data= {data} header={columnHeader} on:rowClicked = {handleRowClicked}/>
 </div>
 <!-- Row jumpers -->
 <div class="row-jumpers">
