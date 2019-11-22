@@ -1,7 +1,7 @@
 <script>
 	export let features;
 	export let events;
-
+	export let datatable;
     // handles public event: searchApplied
 	function handleUpdate(e){
 		let eventData = e.detail;
@@ -18,6 +18,9 @@
 <!-- Global Search-->
 <div class="search-container">
 	<svelte:component this={features.search && features.search.getApp()} on:searchApplied = {handleUpdate}/>
+</div>
+<div class="sort-container">
+		<svelte:component this={features.GlobalSort && features.GlobalSort.getApp()} options= {["asd","da","das"]}/>
 </div>
 <!-- Row jumpers -->
 <div class="row-jumpers">

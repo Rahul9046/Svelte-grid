@@ -1,5 +1,17 @@
 
 (function(l, r) { if (l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (window.location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.head.appendChild(r) })(window.document);
+function unwrapExports (x) {
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
+}
+
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+function getCjsExportFromNamespace (n) {
+	return n && n['default'] || n;
+}
+
 function noop() { }
 function add_location(element, file, line, column, char) {
     element.__svelte_meta = {
@@ -453,44 +465,35 @@ class Global_sort extends SvelteComponentDev {
 	}
 }
 
-function unwrapExports (x) {
-	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
-}
+var globalSort = /*#__PURE__*/Object.freeze({
+	__proto__: null,
+	'default': Global_sort
+});
 
-function createCommonjsModule(fn, module) {
-	return module = { exports: {} }, fn(module, module.exports), module.exports;
-}
+var global_sort_svelte_1 = getCjsExportFromNamespace(globalSort);
 
-var globalSort = createCommonjsModule(function (module, exports) {
+var globalSortWrapper = createCommonjsModule(function (module, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
+
 class GlobalSort {
-    constructor(sortOptions) {
-        this.options = sortOptions;
+    constructor(config) {
+        this.GlobalSortConfig = config;
     }
-    get() {
-        return this.options;
+    getApp() {
+        return global_sort_svelte_1.default;
+    }
+    getProps() {
+        return this.GlobalSortConfig;
+    }
+    getType() {
+        return 'GlobalSort';
     }
 }
 exports.default = GlobalSort;
-//# sourceMappingURL=global-sort.js.map
+
 });
 
-var GlobalSort = unwrapExports(globalSort);
+var globalSortWrapper$1 = unwrapExports(globalSortWrapper);
 
-class GlobalSortWrapper {
-	constructor (options) {
-		this.options = new GlobalSort(options).get();
-	}
-	render () {
-		var app = new Global_sort({
-			target: document.getElementById('global-sort-container-id'),
-			props: {
-				options: this.options
-			}
-		});
-		
-	}
-}
-
-export default GlobalSortWrapper;
+export default globalSortWrapper$1;
 //# sourceMappingURL=global-sort-wrapper.js.map

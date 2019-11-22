@@ -6,6 +6,6 @@
     "sourceMap": true
   },
   "files": [
-    "src/global-sort-wrapper.ts"
+    "./src/grid-wrapper.ts"
   ]
 }
