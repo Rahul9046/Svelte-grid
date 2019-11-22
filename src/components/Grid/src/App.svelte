@@ -1,11 +1,21 @@
 <script>
 	export let features;
 	export let events;
-	export let data;
-	export let columnHeader;
+	export let dataTable;
+
+	import { getHeadernames } from './utils';
+	import {filter} from './utils.js';
+
+	$: data = dataTable.getData().data;
+	$: columnHeader = getHeadernames(dataTable.getSchema());
     // handles public event: searchApplied
 	function handleUpdate(e){
-		let eventData = e.detail;
+		let eventData = e.detail,
+		filterQuery = filter((row, columns) => { 
+			row[columns.Month].indexOf(eventData.value) > -1
+		});
+		data = dataTable.query(filterQuery).getData().data;
+			debugger;
 		events.searchApplied(e, eventData);
 	}
 	// handles public event: rowSelectionChanged

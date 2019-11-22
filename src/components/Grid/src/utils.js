@@ -1,4 +1,5 @@
-import DataStore from '@fusioncharts/datatable';
+import DataStore from 'fusioncharts/datastore';
+import {filter} from 'fusioncharts/datastore/operators';
 
 let data = [
 [1973, "January",0.00005,0.000769],
@@ -113,12 +114,17 @@ schema = [{
   "type": "number"
 }
 ];
-export function getDataTable () {
+ function getDataTable () {
   let ds = new DataStore(),
     dt = ds.createDataTable(data, schema);
   return dt;
 }
-export function getHeadernames (schema) {
+ function getHeadernames (schema) {
   let headerArray = schema.map((columndef)=> {return columndef.name});
   return headerArray;
+}
+export {
+  filter,
+  getDataTable,
+  getHeadernames
 }

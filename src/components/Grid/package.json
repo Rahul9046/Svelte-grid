@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "sirv-cli": "^0.4.4",
-    "@fusioncharts/datatable": "1.0.1"
+    "fusioncharts": "3.14.1"
   },
   "scripts": {
     "build": "rollup -c",
