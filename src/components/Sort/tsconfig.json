@@ -6,6 +6,7 @@
     "sourceMap": true
   },
   "files": [
-    "src/global-sort-wrapper.ts"
+    "src/global-sort-wrapper.ts",
+    "tests/sort.test.ts"
   ]
 }
