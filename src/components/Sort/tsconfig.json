@@ -5,8 +5,12 @@
     "outDir": "src",
     "sourceMap": true
   },
-  "files": [
-    "src/global-sort-wrapper.ts",
-    "tests/sort.test.ts"
+  // "files": [
+  //   "src/global-sort-wrapper.ts",
+  //   "tests/sort.test.ts"
+  // ]
+  "include": [
+    "src",
+    "tests"
   ]
 }
